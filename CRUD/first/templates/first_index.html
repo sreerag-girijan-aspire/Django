@@ -1,8 +1,8 @@
 
 {% for movie in movies %}
 <b>Image</b>
-<p>Title: {{movie.title}}</p>
-<p>Desc: {{movie.desc}}</p>
+<p>Title: {{movie.title | upper}}</p>
+<p>Desc: {{movie.desc | default:"No data available"}}</p>
 <p>Year: {{movie.year}}</p>
 {% if movie.success %}
 <p>Movie was success</p>

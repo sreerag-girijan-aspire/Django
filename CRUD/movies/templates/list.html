@@ -1,5 +1,18 @@
 {% extends 'blank_layout.html' %}
-
+{%load static%}
 {%block content%}
 <h1>List movies</h1>
+
+{%for movie in movies %}
+<p>Title: {{movie.title | upper}}</p>
+<img src="{%static 'images/'%}{{movie.img}}" alt="Movie logo" height="200vh">
+<p>Desc: {{movie.desc | default:"No data available"}}</p>
+<p>Year: {{movie.year}}</p>
+{% if movie.success %}
+<p>Movie was success</p>
+{% else %}
+<p>Movie was not success</p>
+{% endif %}
+{% endfor %}
+
 {%endblock content%}

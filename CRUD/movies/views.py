@@ -68,4 +68,4 @@ class MovieUpdateView(UpdateView):
 class MovieDeleteView(DeleteView):
     model=MovieInfo
     template_name="Confirm_delete.html"
-    success_url=reverse_lazy('movie-list')
+    success_url=reverse_lazy('movie_form_create')

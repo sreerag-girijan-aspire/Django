@@ -1,7 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from .models import MovieInfo
+from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from .forms import MovieForm
+from django.urls import reverse_lazy
+
+
 
 # Create your views here.
 def create(request):
+    if request.POST:
+        print(request.POST)
+        title=request.POST.get("title")
+        desc=request.POST.get("desc")
+        year=request.POST.get("year")
+        success=request.POST.get("success")
+        movie_obj=MovieInfo(title=title,desc=desc,year=year,success=success)
+        movie_obj.save()
     return render(request,"create.html")
 
 def edit(request):
@@ -33,3 +47,25 @@ movie_dict={
 }
 def list(request):
     return render(request,"list.html",movie_dict)
+
+
+class MovieCreateView(CreateView):
+    model = MovieInfo
+    form_class = MovieForm
+    template_name = 'movie_form.html'
+    success_url = '/success/'  # Where to redirect after successful form submission
+
+    def form_valid(self, form):
+        # Optionally, you can customize the behavior when the form is valid
+        return super().form_valid(form)
+    
+class MovieUpdateView(UpdateView):
+    model=MovieInfo
+    form_class=MovieForm
+    template_name="movie_form.html"
+    success_url="/success/"
+
+class MovieDeleteView(DeleteView):
+    model=MovieInfo
+    template_name="Confirm_delete.html"
+    success_url=reverse_lazy('movie-list')

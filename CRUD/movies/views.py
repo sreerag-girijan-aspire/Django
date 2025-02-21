@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from .models import MovieInfo
-from django.views.generic.edit import CreateView,UpdateView,DeleteView
+from django.views.generic.edit import CreateView,UpdateView,DeleteView,FormView
+from django.views.generic import ListView
 from .forms import MovieForm
 from django.urls import reverse_lazy
 
@@ -69,3 +70,8 @@ class MovieDeleteView(DeleteView):
     model=MovieInfo
     template_name="Confirm_delete.html"
     success_url=reverse_lazy('movie_form_create')
+
+class MovieFormView(ListView):
+    model=MovieInfo
+    template_name='formlist.html'
+    context_object_name="movie"

@@ -1,0 +1,13 @@
+{% extends 'blank_layout.html' %}
+{%block content%}
+{%for mov in movie%}
+<p>Title: <b>{{mov.title | upper}}</b></p>
+<p>Desc: {{mov.desc | default:"No data available"}}</p>
+<p>Year: {{mov.year}}</p>
+{% if mov.success %}
+<p>Movie was success</p>
+{% else %}
+<p>Movie was not success</p>
+{% endif %}
+{%endfor %}
+{%endblock content%}

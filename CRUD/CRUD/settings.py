@@ -50,6 +50,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'movies.middleware.RequestTimeMiddleware',
+    # "movies.middleware.AuthenticationMiddleware",
+    "movies.middleware.AddCustomHeadersMiddleware",
 ]
 
 ROOT_URLCONF = 'CRUD.urls'

@@ -9,4 +9,6 @@ urlpatterns=[
     path("movieformupdate/<int:pk>/",views.MovieUpdateView.as_view(),name='movie_form_update'),
     path("movieformdelete/<int:pk>/",views.MovieDeleteView.as_view(),name="movie_form_delete"),
     path("movieformlist",views.MovieFormView.as_view(),name="movie_list"),
+    path("headers",views.view_headers,name="view_headers"),
+    path("customheader",views.view_custom_header,name="custom_header"),
 ]

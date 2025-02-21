@@ -4,6 +4,8 @@ from django.views.generic.edit import CreateView,UpdateView,DeleteView,FormView
 from django.views.generic import ListView
 from .forms import MovieForm
 from django.urls import reverse_lazy
+from django.http import HttpResponse
+
 
 
 
@@ -75,3 +77,25 @@ class MovieFormView(ListView):
     model=MovieInfo
     template_name='formlist.html'
     context_object_name="movie"
+
+
+
+
+def view_headers(request):
+    # Get the User-Agent header
+    user_agent = request.META.get('HTTP_USER_AGENT', 'Unknown')
+    
+    # Get the Authorization header
+    authorization = request.META.get('HTTP_AUTHORIZATION', 'No authorization header')
+
+    language=request.META.get('HTTP_ACCEPT_LANGUAGE')
+    
+    # Return a response with header details
+    return HttpResponse(f'User-Agent: {user_agent},<br/> Authorization: {authorization},<br/> Language: {language}')
+
+
+def view_custom_header(request):
+    response = HttpResponse("<h1>Hello, world!<h1/>")
+    response['X-Custom-Header'] = 'Custom header value by Sree'
+    return response
+

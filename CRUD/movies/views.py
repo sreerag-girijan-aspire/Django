@@ -106,7 +106,6 @@ def view_custom_header(request):
 def query_string(request):
     # Get a parameter 'name' from the query string (e.g., ?name=John)
     name = request.GET.get('name', 'Guest')  # Default to 'Guest' if 'name' is not in query string
-    
     return HttpResponse(f'Hello, {name}!')
 
 

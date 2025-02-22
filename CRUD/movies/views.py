@@ -82,20 +82,14 @@ class MovieFormView(ListView):
 
 
 def view_headers(request):
-    # Get the User-Agent header
-    user_agent = request.META.get('HTTP_USER_AGENT', 'Unknown')
-    
-    # Get the Authorization header
-    authorization = request.META.get('HTTP_AUTHORIZATION', 'No authorization header')
+    # user_agent = request.META.get('HTTP_USER_AGENT', 'Unknown')
+    # authorization = request.META.get('HTTP_AUTHORIZATION', 'No authorization header')
+    # language=request.META.get('HTTP_ACCEPT_LANGUAGE')
 
-    language=request.META.get('HTTP_ACCEPT_LANGUAGE')
     resp=[]
     for key,value in request.META.items():
         resp.append(f"{key}: {value}<br/>")
-    for res in resp:
-        response="".join(res)
-    # print(resp)
-    return(HttpResponse(response))
+    return(HttpResponse(resp))
     
     # Return a response with header details
     return HttpResponse(f'User-Agent: {user_agent},<br/> Authorization: {authorization},<br/> Language: {language}')

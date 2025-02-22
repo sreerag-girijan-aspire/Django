@@ -11,4 +11,5 @@ urlpatterns=[
     path("movieformlist",views.MovieFormView.as_view(),name="movie_list"),
     path("headers",views.view_headers,name="view_headers"),
     path("customheader",views.view_custom_header,name="custom_header"),
+    path("querystring/",views.query_string,name="query_string"),
 ]

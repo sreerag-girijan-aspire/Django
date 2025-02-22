@@ -89,6 +89,13 @@ def view_headers(request):
     authorization = request.META.get('HTTP_AUTHORIZATION', 'No authorization header')
 
     language=request.META.get('HTTP_ACCEPT_LANGUAGE')
+    resp=[]
+    for key,value in request.META.items():
+        resp.append(f"{key}: {value}<br/>")
+    for res in resp:
+        response="".join(res)
+    # print(resp)
+    return(HttpResponse(response))
     
     # Return a response with header details
     return HttpResponse(f'User-Agent: {user_agent},<br/> Authorization: {authorization},<br/> Language: {language}')
@@ -98,4 +105,16 @@ def view_custom_header(request):
     response = HttpResponse("<h1>Hello, world!<h1/>")
     response['X-Custom-Header'] = 'Custom header value by Sree'
     return response
+
+
+
+
+def query_string(request):
+    # Get a parameter 'name' from the query string (e.g., ?name=John)
+    name = request.GET.get('name', 'Guest')  # Default to 'Guest' if 'name' is not in query string
+    
+    return HttpResponse(f'Hello, {name}!')
+
+
+
 

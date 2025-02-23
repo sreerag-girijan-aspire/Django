@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -15,3 +16,21 @@ def delete_cookie(request):
     response = render(request, 'my_template.html')
     response.delete_cookie('my_cookie')  # Delete the cookie
     return response
+
+
+
+
+def set_session(request):
+    request.session['user_name'] = 'Alice'
+    return HttpResponse("Session data set to 'user_name: Alice'.")
+
+def get_session(request):
+    user_name = request.session.get('user_name', 'Guest')  # Default to 'Guest' if no session data
+    return HttpResponse(f"Hello, {user_name}!")
+
+def delete_session(request):
+    try:
+        del request.session['user_name']  # Delete the session data for 'user_name'
+    except KeyError:
+        pass
+    return HttpResponse("Session data for 'user_name' deleted.")

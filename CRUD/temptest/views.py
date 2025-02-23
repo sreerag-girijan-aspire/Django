@@ -34,3 +34,7 @@ def delete_session(request):
     except KeyError:
         pass
     return HttpResponse("Session data for 'user_name' deleted.")
+
+
+def custom_tag(request):
+    return render(request,"custom_tag_and_filter.html")

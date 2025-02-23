@@ -1,3 +1,7 @@
 {% load customTags %}
+{% load customFilters %}
+
 
 {% say_hello "John" %}
+<br/>
+{{ "world"|add_prefix:"Hello, " }}

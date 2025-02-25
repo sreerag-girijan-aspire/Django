@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     "first",
     "movies",
     "temptest",
@@ -82,8 +83,12 @@ WSGI_APPLICATION = 'CRUD.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django',  # Name of your MySQL database
+        'USER': 'myuser',  # Your MySQL username
+        'PASSWORD': 'password',  # Your MySQL password
+        'HOST': 'localhost',  # If your MySQL server is on the same machine
+        'PORT': '3306',
     }
 }
 

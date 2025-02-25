@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -38,3 +40,13 @@ def delete_session(request):
 
 def custom_tag(request):
     return render(request,"custom_tag_and_filter.html")
+
+@api_view(["GET"])
+def index():
+    people_detal={
+        "name":"Alex",
+        "Age":"23"
+    }
+    return Response(people_detal)
+
+

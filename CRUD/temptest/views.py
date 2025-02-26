@@ -45,15 +45,8 @@ def delete_session(request):
 def custom_tag(request):
     return render(request,"custom_tag_and_filter.html")
 
-@api_view(["GET"])
-def index(request):
-    people_detail={
-        "name":"Alex",
-        "Age":"23"
-    }
-    return Response(people_detail)
 
-@api_view(["GET","POST"])
+@api_view(["GET","POST","PATCH"])
 def movie_view(request):
     if request.method=="GET":
         mov_obj=MovieInfo.objects.all()
@@ -61,3 +54,37 @@ def movie_view(request):
         print(MovieInfo.objects.all())
         return Response((serializer.data))
     
+    elif request.method=="POST":
+        data=request.data
+        serializer=MovieSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    
+    elif request.method=="PATCH":
+        data=request.data
+        obj=MovieInfo.objects.get(id=data["id"])
+        serializer=MovieSerializer(obj,data=data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+
+
+
+@api_view(["GET","DELETE"])
+def delete(request,pk):
+    if request.method=="GET":
+        obj=MovieInfo.objects.get(pk=pk)
+        serializer=MovieSerializer(obj)
+        return Response((serializer.data))
+
+    elif request.method=="DELETE":
+        obj=MovieInfo.objects.get(pk=pk)
+        obj.delete()
+        return Response({"message":"Movie Deleted"})
+    
+
+
+

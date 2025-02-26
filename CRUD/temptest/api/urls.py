@@ -1,6 +1,6 @@
 from django.urls import path
 from temptest import views
 urlpatterns=[
-    path("index/",views.index,name="index"),
-    path("view",views.movie_view,name="movie_view"),
+    path("view/",views.movie_view,name="movie_view"),
+    path("delete/<int:pk>/",views.delete,name="delete")
 ]

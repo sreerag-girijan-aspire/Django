@@ -23,5 +23,6 @@ urlpatterns = [
     path("movie/",include("movies.urls")),
     path("test/",include("temptest.urls")),
     path('api-auth/', include('rest_framework.urls')),
+    path("api/",include("temptest.api.urls")),
 
 ]

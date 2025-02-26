@@ -43,10 +43,10 @@ def custom_tag(request):
 
 @api_view(["GET"])
 def index():
-    people_detal={
+    people_detail={
         "name":"Alex",
         "Age":"23"
     }
-    return Response(people_detal)
+    return Response(people_detail)
 
 

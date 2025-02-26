@@ -6,3 +6,6 @@ class MovieInfo(models.Model):
     desc=models.TextField()
     year=models.IntegerField()
     success=models.CharField(max_length=4)
+
+    def __str__(self):
+        return self.title

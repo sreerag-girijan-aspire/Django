@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from movies.models import MovieInfo
+from temptest.api.serializers import MovieSerializer
+from rest_framework.renderers import JSONRenderer
+
 
 # Create your views here.
 
@@ -42,11 +46,18 @@ def custom_tag(request):
     return render(request,"custom_tag_and_filter.html")
 
 @api_view(["GET"])
-def index():
+def index(request):
     people_detail={
         "name":"Alex",
         "Age":"23"
     }
     return Response(people_detail)
 
-
+@api_view(["GET","POST"])
+def movie_view(request):
+    if request.method=="GET":
+        mov_obj=MovieInfo.objects.all()
+        serializer=MovieSerializer(mov_obj,many=True)
+        print(MovieInfo.objects.all())
+        return Response((serializer.data))
+    

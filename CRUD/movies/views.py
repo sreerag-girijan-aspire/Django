@@ -58,9 +58,6 @@ class MovieCreateView(CreateView):
     template_name = 'movie_form.html'
     success_url = '/success/'  # Where to redirect after successful form submission
 
-    def form_valid(self, form):
-        # Optionally, you can customize the behavior when the form is valid
-        return super().form_valid(form)
     
 class MovieUpdateView(UpdateView):
     model=MovieInfo
@@ -78,6 +75,8 @@ class MovieFormView(ListView):
     template_name='formlist.html'
     context_object_name="movie"
 
+def success(request):
+    return render(request,"Confirm_success.html")
 
 
 

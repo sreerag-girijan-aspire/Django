@@ -13,4 +13,5 @@ urlpatterns=[
     path("header/",views.view_headers,name="view_headers"),
     path("customheader/",views.view_custom_header,name="custom_header"),
     path("querystring/",views.query_string,name="query_string"),
+    path("success/",views.success,name="success"),
 ]

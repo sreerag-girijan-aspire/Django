@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from movies.models import MovieInfo
 from temptest.api.serializers import MovieSerializer
-from rest_framework.renderers import JSONRenderer
+from rest_framework.views import APIView
 
 
 # Create your views here.
@@ -51,7 +51,6 @@ def movie_view(request):
     if request.method=="GET":
         mov_obj=MovieInfo.objects.all()
         serializer=MovieSerializer(mov_obj,many=True)
-        print(MovieInfo.objects.all())
         return Response((serializer.data))
     
     elif request.method=="POST":
@@ -85,6 +84,21 @@ def delete(request,pk):
         obj.delete()
         return Response({"message":"Movie Deleted"})
     
+
+class ApiViewMovies(APIView):
+    def get(self,request):
+        mov_obj=MovieInfo.objects.all()
+        serializer=MovieSerializer(mov_obj,many=True)
+        return Response(serializer.data)
+
+
+    def post(self,request):
+        data=request.data
+        serializer=MovieSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
 
 

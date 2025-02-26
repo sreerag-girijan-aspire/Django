@@ -9,3 +9,8 @@ class MovieInfo(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class DirectorInfo(models.Model):
+    name=models.CharField(max_length=10)
+    num=models.IntegerField()

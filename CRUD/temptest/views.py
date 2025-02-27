@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from movies.models import MovieInfo
 from temptest.api.serializers import MovieSerializer,RegisterSerializer,LoginSerializer
@@ -8,6 +8,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated,AllowAny
+from rest_framework.authentication import TokenAuthentication
 
 
 # Create your views here.
@@ -76,6 +78,7 @@ def movie_view(request):
 
 
 @api_view(["GET","DELETE"])
+@permission_classes([IsAuthenticated])
 def delete(request,pk):
     if request.method=="GET":
         obj=MovieInfo.objects.get(pk=pk)
@@ -117,6 +120,8 @@ class RegisterAPI(APIView):
     
 
 class LoginAPI(APIView):
+    permission_classes=[IsAuthenticated]
+    authentication_classes=[TokenAuthentication]
     def post(self,request):
         data=request.data
         serializer=LoginSerializer(data=data)

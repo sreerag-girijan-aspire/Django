@@ -3,8 +3,11 @@ from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from movies.models import MovieInfo
-from temptest.api.serializers import MovieSerializer
+from temptest.api.serializers import MovieSerializer,RegisterSerializer,LoginSerializer
 from rest_framework.views import APIView
+from rest_framework import status
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 
 
 # Create your views here.
@@ -100,5 +103,31 @@ class ApiViewMovies(APIView):
             return Response(serializer.data)
         return Response(serializer.errors)
 
+class RegisterAPI(APIView):
+    def post(self,request):
+        data=request.data
+        serializer=RegisterSerializer(data=data)
 
+        if not serializer.is_valid():
+            return Response({"message":serializer.errors},status=status.HTTP_404_NOT_FOUND)
+        
+        serializer.save()
 
+        return Response({"message":"User Created"},status=status.HTTP_201_CREATED)
+    
+
+class LoginAPI(APIView):
+    def post(self,request):
+        data=request.data
+        serializer=LoginSerializer(data=data)
+
+        if not serializer.is_valid():
+            return Response({"message":serializer.errors},status=status.HTTP_404_NOT_FOUND)
+        user=authenticate(username=serializer.data["username"],password=serializer.data["password"])
+
+        if not user:
+            return Response({"message":"Invalid"},status=status.HTTP_404_NOT_FOUND)
+        
+        token,_=Token.objects.get_or_create(user=user)
+
+        return Response({"message":"Login Successful","token":str(token)},status=status.HTTP_200_OK)

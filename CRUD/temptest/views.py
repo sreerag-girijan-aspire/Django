@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import viewsets
+
 
 
 # Create your views here.
@@ -136,3 +138,17 @@ class LoginAPI(APIView):
         token,_=Token.objects.get_or_create(user=user)
 
         return Response({"message":"Login Successful","token":str(token)},status=status.HTTP_200_OK)
+    
+
+class MovieViewSet(viewsets.ModelViewSet):
+    serializer_class=MovieSerializer
+    queryset=MovieInfo.objects.all()
+
+
+    def list(self, request):
+        search=request.GET.get("search")
+        queryset=self.queryset
+        if search:
+            queryset=queryset.filter(title__startswith=search.upper())
+        serializer=MovieSerializer(queryset,many=True)
+        return Response({"status":200,"data":serializer.data})

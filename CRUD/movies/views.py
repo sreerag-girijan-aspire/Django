@@ -5,7 +5,28 @@ from django.views.generic import ListView
 from .forms import MovieForm
 from django.urls import reverse_lazy
 from django.http import HttpResponse
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout
 
+
+
+
+def custom_logout_view(request):
+    logout(request)  # This will log the user out
+    return redirect('login')  # Redirect the user to a different page
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been created!')
+            return redirect('login')  # Redirect to the login page after successful registration
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
 
 
 
@@ -52,25 +73,25 @@ def list(request):
     return render(request,"list.html",movie_dict)
 
 
-class MovieCreateView(CreateView):
+class MovieCreateView(LoginRequiredMixin,CreateView):
     model = MovieInfo
     form_class = MovieForm
     template_name = 'movie_form.html'
     success_url = '/success/'  # Where to redirect after successful form submission
 
     
-class MovieUpdateView(UpdateView):
+class MovieUpdateView(LoginRequiredMixin,UpdateView):
     model=MovieInfo
     form_class=MovieForm
     template_name="movie_form.html"
     success_url="/success/"
 
-class MovieDeleteView(DeleteView):
+class MovieDeleteView(LoginRequiredMixin,DeleteView):
     model=MovieInfo
     template_name="Confirm_delete.html"
     success_url=reverse_lazy('movie_form_create')
 
-class MovieFormView(ListView):
+class MovieFormView(LoginRequiredMixin,ListView):
     model=MovieInfo
     template_name='formlist.html'
     context_object_name="movie"

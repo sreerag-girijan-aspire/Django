@@ -108,6 +108,18 @@ class ApiViewMovies(APIView):
             return Response(serializer.data)
         return Response(serializer.errors)
 
+class APIViewDelete(APIView):
+    def delete(self, request, pk, *args, **kwargs):
+        try:
+            instance = MovieInfo.objects.get(pk=pk)
+        except MovieInfo.DoesNotExist:
+            return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        instance.delete()
+
+        return Response({"detail": "Deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+
 class RegisterAPI(APIView):
     def post(self,request):
         data=request.data
